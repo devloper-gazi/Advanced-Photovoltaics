@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Photovoltaics: A Global Tech Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: The application is designed as a three-tab interactive dashboard: 'Overview', 'Technology Deep Dive', and 'Country Comparison'. This structure was chosen to guide the user through a logical discovery path, starting with high-level takeaways (Overview), moving to the underlying science (Technology), and finishing with a detailed competitive analysis (Comparison). This non-linear, thematic approach allows users to explore based on their interests, rather than following a rigid report format, significantly enhancing usability and information synthesis. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Key country-specific performance metrics (Efficiency, Stability, Readiness). Goal: Direct comparison. Viz/Presentation: Interactive Bar Chart. Interaction: A dropdown menu allows users to switch the metric being compared, dynamically updating the chart. Justification: This provides a multi-faceted comparison within a single, intuitive interface. Library: Chart.js (Canvas).
+        2. Report Info: Technical characteristics of Multi-Junction vs. Tandem cells. Goal: Explain complex technology. Viz/Presentation: Radar Chart. Interaction: Buttons to toggle between the two technologies, updating the chart and descriptive text. Justification: Radar charts are highly effective for visualizing multi-dimensional strengths and weaknesses in a compact format. Library: Chart.js (Canvas).
+        3. Report Info: High-level country specializations. Goal: Quick summary. Viz/Presentation: Static diagram. Interaction: None. Justification: A clean, lightweight HTML/CSS diagram effectively communicates core concepts without the overhead of a charting library, supporting the initial overview section. Library/Method: HTML/Tailwind CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #3D4852;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-button.active {
+            color: #2D3748;
+            border-bottom-color: #8E7AB5;
+            font-weight: 600;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-2">Advanced Photovoltaics</h1>
+            <p class="text-lg md:text-xl text-gray-600">Global Analysis of In-Environment Energy Harvesting</p>
+        </header>
+
+        <nav class="flex justify-center border-b border-gray-200 mb-8">
+            <button class="nav-button active py-4 px-6 text-gray-600" data-target="overview">Overview</button>
+            <button class="nav-button py-4 px-6 text-gray-600" data-target="tech">Technology Deep Dive</button>
+            <button class="nav-button py-4 px-6 text-gray-600" data-target="comparison">Country Comparison</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="content-section active">
+                 <div class="max-w-4xl mx-auto text-center mb-10">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">The Future of Auxiliary Power</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        Photon-to-Electron Conversion (PEC) is a critical technology for creating self-sustaining, sealed environments. By harvesting energy from internal, broad-spectrum illumination, advanced photovoltaic cells provide essential auxiliary power. This report analyzes the key technologies and leading national efforts in this domain, focusing on the distinct strategic approaches of Israel, China, and Switzerland.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-500 mb-2">Israel: Lab Efficiency</h3>
+                        <p class="text-4xl font-bold text-[#B08BBB] mb-2">47.1%</p>
+                        <span class="text-sm text-gray-500">III-V Multi-Junction Prototypes</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-500 mb-2">Switzerland: Tandem Record</h3>
+                        <p class="text-4xl font-bold text-[#8E7AB5] mb-2">33.9%</p>
+                        <span class="text-sm text-gray-500">Perovskite-on-Silicon Cells</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-500 mb-2">China: Commercial Scale</h3>
+                        <p class="text-4xl font-bold text-[#E493B3] mb-2">>28%</p>
+                        <span class="text-sm text-gray-500">Perovskite Production Focus</span>
+                    </div>
+                </div>
+                
+                 <div class="bg-white p-6 md:p-8 rounded-lg shadow-md border border-gray-100">
+                    <h3 class="text-xl font-bold text-center text-gray-800 mb-6">Strategic Technology Focus</h3>
+                    <div class="flex flex-col md:flex-row justify-around items-center space-y-8 md:space-y-0 md:space-x-8">
+                        <div class="text-center">
+                            <div class="w-24 h-24 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <span class="text-4xl">🇮🇱</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-gray-800">Israel</h4>
+                            <p class="text-gray-600">High-Performance<br/>Multi-Junction Cells</p>
+                        </div>
+
+                        <div class="text-gray-300 text-2xl hidden md:block">&rarr;</div>
+                        <div class="text-gray-300 text-2xl md:hidden">&darr;</div>
+
+                        <div class="text-center">
+                            <div class="w-24 h-24 bg-red-100 text-red-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <span class="text-4xl">🇨🇳</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-gray-800">China</h4>
+                            <p class="text-gray-600">Industrial Scale-Up<br/>of Perovskites</p>
+                        </div>
+                        
+                        <div class="text-gray-300 text-2xl hidden md:block">&larr;</div>
+                        <div class="text-gray-300 text-2xl md:hidden">&darr;</div>
+                        
+                        <div class="text-center">
+                            <div class="w-24 h-24 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <span class="text-4xl">🇨🇭</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-gray-800">Switzerland</h4>
+                            <p class="text-gray-600">Record-Efficiency<br/>Tandem Structures</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tech" class="content-section">
+                <div class="max-w-4xl mx-auto text-center mb-10">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Core Photovoltaic Technologies</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        The efficiency of in-environment energy harvesting depends on the photovoltaic material's ability to convert a broad, artificial light spectrum. Two technologies dominate advanced research: complex multi-junction cells and novel perovskite-based tandem structures. Select a technology below to explore its characteristics.
+                    </p>
+                </div>
+                <div class="text-center mb-8">
+                    <button id="tech-mj" class="tech-button bg-white text-gray-800 py-2 px-5 rounded-lg shadow-md border border-gray-200 font-semibold">Multi-Junction</button>
+                    <button id="tech-pt" class="tech-button bg-gray-200 text-gray-600 py-2 px-5 rounded-lg font-semibold">Perovskite-Tandem</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 id="tech-title" class="text-xl font-bold text-gray-800 mb-4">Multi-Junction Cells</h3>
+                        <p id="tech-desc" class="text-gray-700 leading-relaxed">
+                            These cells consist of multiple layers of different semiconductor materials (like III-V compounds such as Gallium Arsenide). Each layer is precisely tuned to capture a specific slice of the light spectrum. By stacking these layers, multi-junction cells can achieve unparalleled conversion efficiencies, especially under concentrated or broad-spectrum light, but at a significantly higher manufacturing cost and complexity.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <div class="chart-container" style="height: 350px; max-height: 40vh;">
+                            <canvas id="techRadarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comparison" class="content-section">
+                <div class="max-w-4xl mx-auto text-center mb-10">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Comparative National Analysis</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        While all three nations are leaders in photovoltaics, their strategies and strengths diverge significantly. This section allows for a direct comparison across key performance and development metrics. Use the dropdown to change the data displayed in the chart and explore each nation's unique position in the field.
+                    </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="flex justify-center mb-6">
+                         <select id="metric-selector" class="block w-full md:w-1/3 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8E7AB5]">
+                            <option value="efficiency">Max Lab Efficiency (%)</option>
+                            <option value="stability">Operational Stability (Hours)</option>
+                            <option value="readiness">Commercial Readiness (1-5)</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="countryBarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center"><span class="mr-2 text-2xl">🇮🇱</span> Israel</h3>
+                        <p class="font-semibold text-[#B08BBB] mb-3">Focus: Elite Performance Materials</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>Leverages defense & semiconductor industry expertise.</li>
+                            <li>Specializes in III-V multi-junction cells for maximum efficiency.</li>
+                            <li>Strong in developing novel materials like quantum dots to enhance spectral absorption.</li>
+                            <li>Agile R&D ecosystem with numerous academic spin-offs.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center"><span class="mr-2 text-2xl">🇨🇳</span> China</h3>
+                        <p class="font-semibold text-[#E493B3] mb-3">Focus: Industrial Dominance & Scale</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>State-backed push to lead in next-generation PV.</li>
+                            <li>Aggressively pursuing perovskite technology for its low cost potential.</li>
+                            <li>Expertise in large-area deposition and scaling lab innovations to mass production.</li>
+                            <li>Aiming to control the entire supply chain from raw materials to finished panels.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center"><span class="mr-2 text-2xl">🇨🇭</span> Switzerland</h3>
+                        <p class="font-semibold text-[#8E7AB5] mb-3">Focus: Precision & World Records</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>World-leading academic research (e.g., EPFL).</li>
+                            <li>Holds multiple efficiency records for perovskite-silicon tandem cells.</li>
+                            <li>Excels in device stability, encapsulation, and interface passivation.</li>
+                            <li>Focus on high-value, niche applications where reliability and efficiency are paramount.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const contentSections = document.querySelectorAll('.content-section');
+            const techButtons = document.querySelectorAll('.tech-button');
+
+            const techData = {
+                mj: {
+                    title: 'Multi-Junction Cells',
+                    desc: 'These cells consist of multiple layers of different semiconductor materials (like III-V compounds such as Gallium Arsenide). Each layer is precisely tuned to capture a specific slice of the light spectrum. By stacking these layers, multi-junction cells can achieve unparalleled conversion efficiencies, especially under concentrated or broad-spectrum light, but at a significantly higher manufacturing cost and complexity.',
+                    chartData: [4.5, 5, 2, 3, 4]
+                },
+                pt: {
+                    title: 'Perovskite-Tandem Cells',
+                    desc: 'This innovative approach involves layering a thin, highly efficient perovskite cell on top of a traditional silicon cell. The perovskite layer captures high-energy light (like blues and greens), while the silicon layer captures lower-energy light (like reds). This synergy allows tandem cells to surpass the theoretical efficiency limit of single-junction silicon cells, offering a pathway to low-cost, ultra-high-efficiency solar conversion.',
+                    chartData: [4, 2.5, 5, 4.5, 3.5]
+                }
+            };
+
+            const countryData = {
+                efficiency: {
+                    label: 'Max Lab Efficiency (%)',
+                    data: [47.1, 28.5, 33.9],
+                    backgroundColor: ['#B08BBB', '#E493B3', '#8E7AB5']
+                },
+                stability: {
+                    label: 'Operational Stability (Hours)',
+                    data: [4000, 2500, 3500],
+                    backgroundColor: ['#B08BBB', '#E493B3', '#8E7AB5']
+                },
+                readiness: {
+                    label: 'Commercial Readiness (1-5 Scale)',
+                    data: [3, 4, 2.5],
+                    backgroundColor: ['#B08BBB', '#E493B3', '#8E7AB5']
+                }
+            };
+
+            let techRadarChart, countryBarChart;
+
+            function initCharts() {
+                const radarCtx = document.getElementById('techRadarChart').getContext('2d');
+                techRadarChart = new Chart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Max Efficiency', 'Spectrum Use', 'Low Cost', 'Scalability', 'Stability'],
+                        datasets: [{
+                            label: 'Tech Characteristics',
+                            data: techData.mj.chartData,
+                            fill: true,
+                            backgroundColor: 'rgba(142, 122, 181, 0.2)',
+                            borderColor: 'rgb(142, 122, 181)',
+                            pointBackgroundColor: 'rgb(142, 122, 181)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(142, 122, 181)'
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        elements: {
+                            line: {
+                                borderWidth: 3
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: false
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 5,
+                                pointLabels: {
+                                    font: {
+                                        size: 13
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+
+                const barCtx = document.getElementById('countryBarChart').getContext('2d');
+                countryBarChart = new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Israel', 'China', 'Switzerland'],
+                        datasets: [{
+                            label: countryData.efficiency.label,
+                            data: countryData.efficiency.data,
+                            backgroundColor: countryData.efficiency.backgroundColor
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                             tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.x !== null) {
+                                            label += context.parsed.x;
+                                            if (context.dataset.label.includes('%')) {
+                                                label += '%';
+                                            }
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateTechView(techKey) {
+                const data = techData[techKey];
+                document.getElementById('tech-title').textContent = data.title;
+                document.getElementById('tech-desc').textContent = data.desc;
+                
+                techRadarChart.data.datasets[0].data = data.chartData;
+                techRadarChart.update();
+
+                techButtons.forEach(btn => {
+                    btn.classList.remove('bg-white', 'text-gray-800', 'border-gray-200', 'font-semibold');
+                    btn.classList.add('bg-gray-200', 'text-gray-600', 'font-semibold');
+                });
+                const activeBtn = document.getElementById(`tech-${techKey}`);
+                activeBtn.classList.add('bg-white', 'text-gray-800', 'border-gray-200', 'font-semibold');
+                activeBtn.classList.remove('bg-gray-200', 'text-gray-600');
+            }
+
+            function updateCountryChart(metric) {
+                const data = countryData[metric];
+                countryBarChart.data.datasets[0].data = data.data;
+                countryBarChart.data.datasets[0].label = data.label;
+                countryBarChart.options.plugins.tooltip.callbacks.label = function(context) {
+                    let label = context.dataset.label || '';
+                    if (label) { label += ': '; }
+                    if (context.parsed.x !== null) {
+                        label += context.parsed.x;
+                         if(metric === 'efficiency') label += '%';
+                         if(metric === 'stability') label += ' hrs';
+                    }
+                    return label;
+                };
+                countryBarChart.update();
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            techButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const techKey = e.target.id.split('-')[1];
+                    updateTechView(techKey);
+                });
+            });
+
+            document.getElementById('metric-selector').addEventListener('change', (e) => {
+                updateCountryChart(e.target.value);
+            });
+
+            initCharts();
+            updateTechView('mj');
+        });
+    </script>
+</body>
+</html>
