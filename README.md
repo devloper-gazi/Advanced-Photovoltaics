@@ -10,4 +10,4 @@ This interactive web application provides a concise examination of advanced phot
 
 The platform supports **light/dark mode** and responsive design, optimized for both desktop and mobile viewing.  
 
-🔗 **Live presentation:** [Advanced Photovoltaics](https://devloper-gazi.github.io/Advanced-Photovoltaics/)
+🔗 **Live Presentation:** [Advanced Photovoltaics](https://devloper-gazi.github.io/Advanced-Photovoltaics/)
